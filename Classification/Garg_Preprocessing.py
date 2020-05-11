@@ -1,10 +1,10 @@
-from sklearn.model_selection import train_test_split
-from sklearn.covariance import EllipticEnvelope
-from sklearn.ensemble import IsolationForest
-from sklearn.neighbors import LocalOutlierFactor
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from sklearn.covariance import EllipticEnvelope
+from sklearn.ensemble import IsolationForest
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import LocalOutlierFactor
 
 
 def train_test_dev_split(data_set, Output_col_name, dev_size=0.2, test_size=0.1):
@@ -24,13 +24,14 @@ def train_test_dev_split(data_set, Output_col_name, dev_size=0.2, test_size=0.1)
     return X_train, X_dev, X_test, Y_train, Y_dev, Y_test
 
 
-def outlier_det(X,Y, X_plot_col, Y_plot_col, Output_mod='Isolation Forest',outliers_fraction=0.05):
+def outlier_det(X, Y, X_plot_col, Y_plot_col, Output_mod='Isolation Forest', outliers_fraction=0.05):
     """
     :param X: DF (can include all cols except the one to be predicted)
     :param X_plot_col: X col for plotting outliers
     :param Y_plot_col: Y col for plotting outliers
     :param outliers_fraction: Percent of values to set as outliers
-    :param Output_mod: Output model used for prediction ('Robust covariance' , 'Isolation Forest', 'Local Outlier Factor')
+    :param Output_mod: Output model used for prediction ('Robust covariance' , 'Isolation Forest', 'Local Outlier
+    Factor')
     :return: Outlier free version of Training DF (X_train , Y_train)
     """
     plt.figure(figsize=(15, 10))
@@ -51,7 +52,7 @@ def outlier_det(X,Y, X_plot_col, Y_plot_col, Output_mod='Isolation Forest',outli
         else:
             y_pred = algorithm.fit(X_).predict(X_)
 
-        pred_dict[name] =y_pred
+        pred_dict[name] = y_pred
         # Plotting outliers
         plt.subplot(130 + algo_cnt)
         colors = np.array(['#377eb8', '#ff7f00'])
@@ -73,4 +74,4 @@ def outlier_det(X,Y, X_plot_col, Y_plot_col, Output_mod='Isolation Forest',outli
     outlier_index = pred[pred == -1].index
     X_outlier_free = X.drop(index=outlier_index)
     Y_outlier_free = Y.drop(index=outlier_index)
-    return (X_outlier_free,Y_outlier_free)
+    return (X_outlier_free, Y_outlier_free)
